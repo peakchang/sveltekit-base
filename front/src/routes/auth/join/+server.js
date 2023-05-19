@@ -27,9 +27,4 @@ export const POST = async ({ request }) => {
         }
         return new Response(JSON.stringify({ message: err_message }), { status: 401 })
     }
-
-
-
-
-    
 }

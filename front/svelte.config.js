@@ -12,7 +12,6 @@ const config = {
 		alias: {
 			// this will match a file
 			$node_modules: path.resolve("./node_modules"),
-			// $lib: path.resolve("./src/lib"),
 			$src: path.resolve("./src"),
 		},
 	},

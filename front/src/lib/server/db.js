@@ -13,3 +13,7 @@ export const createPost = async ({ title, body, userId }) => {
     const insertPostQuert = "INSERT INTO test_board (tb_subject,tb_content,tb_userid) VALUES (?,?,?)";
     await sql_con.promise().query(insertPostQuert, [title, body, userId]);
 }
+
+
+
+

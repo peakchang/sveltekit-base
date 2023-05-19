@@ -4,14 +4,18 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { user_info } from '$lib/stores/auth_store';
-	console.log(user_info);
-	// console.log($user_info);
 
 	let getemail;
 	let getpwd;
 	let id_input;
 
-	onMount(() => {});
+	// onMount(() => {
+	// 	if ($user_info) {
+	// 		alert('이미 로그인 되어 있습니다.');
+	// 		history.back();
+	// 		return;
+	// 	}
+	// });
 
 	const request_login = async () => {
 		const login_type = 'local';

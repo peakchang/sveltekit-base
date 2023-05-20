@@ -5,6 +5,8 @@
 	import { user_info } from '$lib/stores/auth_store';
 	import { goto } from '$app/navigation';
 	import { beforeNavigate } from '$app/navigation';
+	import "$src/app.css";
+    import "$node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 
 
 	beforeNavigate((e) => {
@@ -40,24 +42,33 @@
 	};
 </script>
 
-<ul class="flex">
-	<a href="/">
-		<li class="mr-3">Home</li>
-	</a>
-	<a href="/testpage">
-		<li class="mr-3">testpage</li>
-	</a>
-	<a href="/auth/login">
-		<li class="mr-3">login</li>
-	</a>
-</ul>
 
-<!-- <a href="/auth/login" target="_blank" on:click|preventDefault={clickHandler}> Naver </a> -->
 
-{#if $user_info}
-	로그인 상태O
-{:else}
-	로그인 상태X
-{/if}
+
 
 <slot />
+
+<style>
+    @font-face {
+        font-family: "TheJamsil5Bold";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2")
+            format("woff2");
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: "S-CoreDream-3Light";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff")
+            format("woff");
+        font-weight: normal;
+        font-style: normal;
+    }
+    :global(.gamsil) {
+        font-family: "TheJamsil5Bold";
+    }
+
+    :global(.score-light) {
+        font-family: "S-CoreDream-3Light";
+    }
+</style>

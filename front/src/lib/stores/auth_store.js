@@ -8,6 +8,8 @@ export let mobile_sidebar = writable(false);
 
 export let user_info = writable('');
 
+export let testCount = writable(0)
+
 // const persist_storage = (key, initValue) => {
 //     if (browser) {
 //         console.log(cookie);

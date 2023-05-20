@@ -6,7 +6,10 @@
 	import { goto } from '$app/navigation';
 	import { beforeNavigate } from '$app/navigation';
 	import axios from 'axios';
+	export let data;
 
+
+	// 페이지 이동시 전처리 함수
 	beforeNavigate((e) => {
 		e.willUnload = true;
 		console.log(e.to.route.id.includes('login'));
@@ -16,20 +19,19 @@
 			return;
 		}
 	});
-
-	const logoutFunc = () => {
-		console.log('asidfiajsdlfjadf');
-		axios.post('/auth/logout', {}, { withCredentials: true }).then((res) => {
-			console.log('어떻게 할까???');
-		});
-	};
-
-
-	// @material-tailwind/html
-	export let data;
+	
+	// 로그인 / 로그아웃 관련
 	if (data) {
 		$user_info = data.user_info;
 	}
+
+	const logoutFunc = () => {
+		axios.post('/auth/logout', {}, { withCredentials: true }).then((res) => {
+			$user_info = false;
+		});
+	};
+	
+	
 </script>
 
 <ul class="flex">
@@ -40,6 +42,7 @@
 		<li class="mr-3">testpage</li>
 	</a>
 
+	<!-- 여기는 로그인 관련 부분 -->
 	{#if $user_info}
 		<a href="/auth/logout" on:click|preventDefault={logoutFunc}>
 			<li class="mr-3">logout</li>

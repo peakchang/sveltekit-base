@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 export const POST = async ({ request, cookies }) => {
+    console.log('로그인 시작!!');
     const body = await request.json()
     try {
         if (body.login_type === 'local') {

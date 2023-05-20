@@ -11,7 +11,7 @@ const app = express();
 
 app.set('port', process.env.PORT || 3000);
 
-app.use(cookieParser('ldsjfglsjdf-sgffg3f-43534g34g3'));
+// app.use(cookieParser('ldsjfglsjdf-sgffg3f-43534g34g3'));
 
 if (process.env.NODE_ENV === 'production') {
     var https_status = true
@@ -19,23 +19,23 @@ if (process.env.NODE_ENV === 'production') {
     var https_status = false
 }
 
-const sessionOption = {
-    resave: false,
-    saveUninitialized: false,
-    secret: 'ldsjfglsjdf-sgffg3f-43534g34g3',
-    cookie: {
-        httpOnly: true,
-        secure: https_status,
-        // maxAge: 60 * 1000 * 120,
-    },
-};
+// const sessionOption = {
+//     resave: false,
+//     saveUninitialized: false,
+//     secret: 'ldsjfglsjdf-sgffg3f-43534g34g3',
+//     cookie: {
+//         httpOnly: true,
+//         secure: https_status,
+//         // maxAge: 60 * 1000 * 120,
+//     },
+// };
 
-if (process.env.NODE_ENV === 'production') {
-    sessionOption.proxy = true;
-    sessionOption.cookie.secure = true;
-}
+// if (process.env.NODE_ENV === 'production') {
+//     sessionOption.proxy = true;
+//     sessionOption.cookie.secure = true;
+// }
 
-app.use(session(sessionOption));
+// app.use(session(sessionOption));
 
 // if (process.env.NODE_ENV === 'production') {
 //     app.use(morgan('combined'));

@@ -5,13 +5,12 @@
 	import { user_info } from '$lib/stores/auth_store';
 	import { goto } from '$app/navigation';
 	import { beforeNavigate } from '$app/navigation';
-<<<<<<< HEAD
 	import "$src/app.css";
     import "$node_modules/@fortawesome/fontawesome-free/css/all.min.css";
-=======
+
 	import axios from 'axios';
 	export let data;
->>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
+
 
 
 	// 페이지 이동시 전처리 함수
@@ -39,8 +38,7 @@
 	
 </script>
 
-<<<<<<< HEAD
-=======
+
 <ul class="flex">
 	<a href="/">
 		<li class="mr-3">Home</li>
@@ -60,14 +58,8 @@
 		</a>
 	{/if}
 </ul>
->>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
 
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
 <slot />
 
 <style>

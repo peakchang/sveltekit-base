@@ -5,47 +5,69 @@
 	import { user_info } from '$lib/stores/auth_store';
 	import { goto } from '$app/navigation';
 	import { beforeNavigate } from '$app/navigation';
+<<<<<<< HEAD
 	import "$src/app.css";
     import "$node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+=======
+	import axios from 'axios';
+	export let data;
+>>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
 
 
+	// 페이지 이동시 전처리 함수
 	beforeNavigate((e) => {
-		e.willUnload = true
+		e.willUnload = true;
 		console.log(e.to.route.id.includes('login'));
-		
-		if(e.to.route.id.includes('login') && $user_info){
-			alert('이미 로그인 되어 있습니다!')
-			console.log('이 안으로 들어옴!!!');
-			e.cancel()
-			return
+		if (e.to.route.id.includes('login') && $user_info) {
+			alert('이미 로그인 되어 있습니다!');
+			e.cancel();
+			return;
 		}
 	});
-
-	// @material-tailwind/html
-	export let data;
+	
+	// 로그인 / 로그아웃 관련
 	if (data) {
 		$user_info = data.user_info;
 	}
-	console.log('요긴가???');
-	console.log($user_info);
-	console.log('****************************');
 
-	const clickHandler = (e) => {
-		console.log(e.target.href);
-		const goLink = e.target.href;
-		if ($user_info) {
-			alert('logined');
-			return;
-		} else {
-			goto(goLink);
-		}
+	const logoutFunc = () => {
+		axios.post('/auth/logout', {}, { withCredentials: true }).then((res) => {
+			$user_info = false;
+		});
 	};
+	
+	
 </script>
 
+<<<<<<< HEAD
+=======
+<ul class="flex">
+	<a href="/">
+		<li class="mr-3">Home</li>
+	</a>
+	<a href="/testpage">
+		<li class="mr-3">testpage</li>
+	</a>
+
+	<!-- 여기는 로그인 관련 부분 -->
+	{#if $user_info}
+		<a href="/auth/logout" on:click|preventDefault={logoutFunc}>
+			<li class="mr-3">logout</li>
+		</a>
+	{:else}
+		<a href="/auth/login">
+			<li class="mr-3">login</li>
+		</a>
+	{/if}
+</ul>
+>>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 18e586cf874f1ebdacca6f8be30ec914a1f451da
 <slot />
 
 <style>

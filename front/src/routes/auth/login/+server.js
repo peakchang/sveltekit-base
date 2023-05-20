@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 export const POST = async ({ request, cookies }) => {
+    console.log('로그인 시작!!');
     const body = await request.json()
     try {
         if (body.login_type === 'local') {
@@ -32,17 +33,17 @@ export const POST = async ({ request, cookies }) => {
             const accessToken = jwt.sign(
                 { userInfo },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '3s' }
+                { expiresIn: '2h' }
             );
 
             const refreshToken = jwt.sign(
                 { userId: get_user.idx },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '1h' }
+                { expiresIn: '3d' }
             );
 
             // 4. refreshToken DB 저장 및 HttpOnly 쿠키 저장 (추후 쿠키값과 DB값을 비교)
-            // 60(1분) * 60(1시간) * 24(하루) * 3
+            // 60(1분) * 60(1시간 / 3600) * 24(하루 / 86400) * 3
             cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
             const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
             await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, get_user.idx]);
@@ -59,11 +60,5 @@ export const POST = async ({ request, cookies }) => {
     } catch (error) {
         console.log(error);
     }
-
-
-
-
-
-
     return new Response(JSON.stringify({ message: "hello" }), { status: 200 })
 }

@@ -7,3 +7,4 @@ export let pc_sidebar = writable(false);
 export let mobile_sidebar = writable(false);
 
 export let user_info = writable('');
+

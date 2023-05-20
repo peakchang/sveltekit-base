@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import path from 'path';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -9,24 +10,23 @@ const app = express();
 
 app.set('port', process.env.PORT || 3000);
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(morgan('combined'));
-    app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
-    app.use(hpp());
-} else {
-    app.use(morgan('dev'));
-}
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(morgan('combined'));
+//     app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+//     app.use(hpp());
+// } else {
+//     app.use(morgan('dev'));
+// }
 
-// ESM 오류 해결을 위해 __dirname, __filename 직접 변수 작성
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// // ESM 오류 해결을 위해 __dirname, __filename 직접 변수 작성
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use(cors());
+// app.use(cors());
 
 import { handler } from "./front/build/handler.js"
 

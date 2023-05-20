@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import session from 'express-session';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import hpp from 'hpp';

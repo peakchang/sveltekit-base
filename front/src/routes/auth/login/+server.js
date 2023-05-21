@@ -34,7 +34,7 @@ export const POST = async ({ request, cookies }) => {
             const accessToken = jwt.sign(
                 { userInfo },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '2h' }
+                { expiresIn: '15s' }
             );
 
             console.log(`accessToken 생성!! ${accessToken}`);
@@ -42,14 +42,15 @@ export const POST = async ({ request, cookies }) => {
             const refreshToken = jwt.sign(
                 { userId: get_user.idx },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '3d' }
+                { expiresIn: '30s' }
             );
 
             console.log(`refreshToken 생성!! ${refreshToken}`);
 
             // 4. refreshToken DB 저장 및 HttpOnly 쿠키 저장 (추후 쿠키값과 DB값을 비교)
             // 60(1분) * 60(1시간 / 3600) * 24(하루 / 86400) * 3
-            cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
+            cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
+            // cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
 
             console.log('쿠키 셋팅 완료?!?!?');
 

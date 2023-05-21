@@ -32,7 +32,7 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                             import.meta.env.VITE_JWT_SECRET_KEY,
                             { expiresIn: '30s' }
                         );
-                        cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
+                        cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
                         const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
                         await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, select_user_idx.idx]);
                     }
@@ -90,7 +90,7 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                         import.meta.env.VITE_JWT_SECRET_KEY,
                         { expiresIn: '30s' }
                     );
-                    cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
+                    cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
                     const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
                     await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, data.userId]);
                 }

@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { sql_con } from "$lib/server/db";
 
+// 액세스 토큰 = 2시간 (2h) , 리프레쉬 토큰 = 3일 (3d) , 사이트 접속시 리프레쉬 토큰 1일 미만으로 남았을 경우 재발급
+
 export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
 
     // 1. 액세스 토큰 유무 체크! (세션 쿠키를 사용하기 때문에 브라우저 꺼지거나 30분이 지나면 없어짐)
@@ -28,7 +30,7 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                         const refreshToken = jwt.sign(
                             { userId: select_user_idx.idx },
                             import.meta.env.VITE_JWT_SECRET_KEY,
-                            { expiresIn: '15s' }
+                            { expiresIn: '30s' }
                         );
                         cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
                         const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
@@ -69,7 +71,7 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                 const accessToken = jwt.sign(
                     { userInfo },
                     import.meta.env.VITE_JWT_SECRET_KEY,
-                    { expiresIn: '2h' }
+                    { expiresIn: '15s' }
                 );
                 cookies.set('atk', accessToken, { path: '/' });
 
@@ -86,17 +88,12 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                     const refreshToken = jwt.sign(
                         { userId: get_user.idx },
                         import.meta.env.VITE_JWT_SECRET_KEY,
-                        { expiresIn: '3d' }
+                        { expiresIn: '30s' }
                     );
                     cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
                     const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
                     await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, data.userId]);
                 }
-
-
-
-
-
                 // 3. userInfo return
                 return userInfo
             }

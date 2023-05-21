@@ -26,15 +26,7 @@
 		}
 
 		await axios
-			.post(
-				'/auth/login',
-				{
-					getemail,
-					getpwd,
-					login_type
-				},
-				{ withCredentials: true }
-			)
+			.post('/auth/login', { getemail, getpwd, login_type }, { withCredentials: true })
 			.then((res) => {
 				console.log(res.data);
 
@@ -49,7 +41,12 @@
 	};
 
 	const kakao_login = () => {
-		location.href = import.meta.env.VITE_SERVER_URL + '/auth/kakao';
+
+		const kakaoInfo = {
+			kakao_restapi : '73bc321608525586fc550b292581fc3c',
+			kakao_redirect : 'http://localhost:5173/auth/kakao_callback'
+		}
+		location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoInfo.kakao_restapi}&redirect_uri=${kakaoInfo.kakao_redirect}&response_type=code`;
 	};
 
 	const gotoJoin = () => {

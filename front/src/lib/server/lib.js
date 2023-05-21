@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { sql_con } from "$lib/server/db";
 
-// 액세스 토큰 = 2시간 (2h) , 리프레쉬 토큰 = 3일 (3d) , 사이트 접속시 리프레쉬 토큰 1일 미만으로 남았을 경우 재발급
+// 액세스 토큰 = 2시간 (2h) , 리프레쉬 토큰 = 3일 (3d) , 리프레쉬 토큰 3일 미만으로 남았을 경우 재발급
 
 export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
 
@@ -30,9 +30,9 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                         const refreshToken = jwt.sign(
                             { userId: select_user_idx.idx },
                             import.meta.env.VITE_JWT_SECRET_KEY,
-                            { expiresIn: '30s' }
+                            { expiresIn: '3d' }
                         );
-                        cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
+                        cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
                         const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
                         await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, select_user_idx.idx]);
                     }
@@ -71,7 +71,7 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                 const accessToken = jwt.sign(
                     { userInfo },
                     import.meta.env.VITE_JWT_SECRET_KEY,
-                    { expiresIn: '15s' }
+                    { expiresIn: '2h' }
                 );
                 cookies.set('atk', accessToken, { path: '/' });
 
@@ -88,9 +88,9 @@ export const tokenWork = async (getAccessToken, getRefreshToken, cookies) => {
                     const refreshToken = jwt.sign(
                         { userId: get_user.idx },
                         import.meta.env.VITE_JWT_SECRET_KEY,
-                        { expiresIn: '30s' }
+                        { expiresIn: '3d' }
                     );
-                    cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
+                    cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
                     const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
                     await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, data.userId]);
                 }

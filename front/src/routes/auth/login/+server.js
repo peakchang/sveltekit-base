@@ -6,9 +6,12 @@ import jwt from "jsonwebtoken";
 export const POST = async ({ request, cookies }) => {
     console.log('로그인 시작!!');
     console.log(cookies);
+    
     const body = await request.json()
+    
     try {
         if (body.login_type === 'local') {
+            
             // 1. 기존 아이디(이메일)이 있는지 검증
             const getUserQuery = "SELECT idx, user_email, user_pwd, user_nick, user_name, user_rate, user_provider, user_thumbnail  FROM users WHERE user_email = ?";
             const getUser = await sql_con.promise().query(getUserQuery, [body.getemail]);
@@ -23,6 +26,8 @@ export const POST = async ({ request, cookies }) => {
                 return new Response(JSON.stringify({ error: "비밀번호가 맞지 않습니다. 다시 확인해주세요." }), { status: 500 });
             }
 
+
+
             // 3. 검증 완료 되었으면 accessToken (유저 정보 담기) / refreshToken (아이디만 담기) 발급
             const userInfo = {
                 email: get_user.user_email,
@@ -34,26 +39,18 @@ export const POST = async ({ request, cookies }) => {
             const accessToken = jwt.sign(
                 { userInfo },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '15s' }
+                { expiresIn: '2h' }
             );
-
-            console.log(`accessToken 생성!! ${accessToken}`);
 
             const refreshToken = jwt.sign(
                 { userId: get_user.idx },
                 import.meta.env.VITE_JWT_SECRET_KEY,
-                { expiresIn: '30s' }
+                { expiresIn: '3d' }
             );
-
-            console.log(`refreshToken 생성!! ${refreshToken}`);
 
             // 4. refreshToken DB 저장 및 HttpOnly 쿠키 저장 (추후 쿠키값과 DB값을 비교)
             // 60(1분) * 60(1시간 / 3600) * 24(하루 / 86400) * 3
-            cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 30 });
-            // cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
-
-            console.log('쿠키 셋팅 완료?!?!?');
-
+            cookies.set('rtk', refreshToken, { path: '/', secure: true, HttpOnly: true, maxAge: 259200 });
 
             const updateUserRetokenQuery = "UPDATE users SET user_retoken = ? WHERE idx = ?";
             await sql_con.promise().query(updateUserRetokenQuery, [refreshToken, get_user.idx]);

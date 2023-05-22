@@ -2,14 +2,19 @@
 	// @ts-nocheck
 
 	import { onMount } from 'svelte';
+	import AOS from 'aos';
+	import 'aos/dist/aos.css'; // You can also use <link> for styles
 
 	// @ts-ignore
 	let rightFix = {};
 	/**
 	 * @type {HTMLDivElement}
 	 */
+
+	console.log(AOS);
 	let pageWrap;
 	let btnWrap;
+	let menuWrap;
 	let scrollY;
 
 	let subjectTop;
@@ -20,12 +25,11 @@
 	let subjectTopIdx = -1;
 	let subjectBottomIdx = -1;
 
-	const testFunc = () => {
-	};
-
-
+	const testFunc = () => {};
 
 	onMount(() => {
+		AOS.init();
+
 		const subjectTopTxtArr = [...subjectTopTxt];
 		const subjectBottomTxtArr = [...subjectBottomTxt];
 
@@ -62,6 +66,8 @@
 		(() => {
 			if (pageWrap) {
 				const moveBtnList = btnWrap.children;
+				const menuList = menuWrap.children;
+
 				const pages = pageWrap.children;
 				let chkArr = [];
 				for (let ii = 0; ii < pages.length; ii++) {
@@ -74,6 +80,8 @@
 						k++;
 					}
 				});
+
+				console.log(chkArr);
 
 				for (let i = 0; i < moveBtnList.length; i++) {
 					moveBtnList[i].innerHTML = '';
@@ -91,7 +99,8 @@
 		})();
 
 	// @ts-ignore
-	function testClick(e) {
+	function moveScroll(e) {
+		console.log(this);
 		// @ts-ignore
 		const nodes = [...this.parentElement.children];
 		// @ts-ignore
@@ -102,33 +111,46 @@
 
 <svelte:window bind:scrollY />
 
+<div class="fixed top-0 left-0 w-full z-50 gamsil text-base md:text-xl bg-white p-2 opacity-75">
+	<ul class="flex" bind:this={menuWrap}>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<li class="mr-3 cursor-pointer" on:click={moveScroll}>Main</li>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<li class="mr-3 cursor-pointer" on:click={moveScroll}>마켓팅</li>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<li class="mr-3 cursor-pointer" on:click={moveScroll}>데이터베이스</li>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<li class="mr-3 cursor-pointer" on:click={moveScroll}>전문가</li>
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<li class="mr-3 cursor-pointer" on:click={moveScroll}>신청하기</li>
+	</ul>
+</div>
+
 <div>
 	<!-- 우측 고정 스크롤 -->
 	<div class="fixed top-1/3 right-6 text-center cursor-pointer z-20" bind:this={btnWrap}>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={testClick}>
+		<div on:click={moveScroll}>
 			<i class="fa-solid fa-circle" />
 		</div>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={testClick}>
+		<div on:click={moveScroll}>
 			<i class="fa-regular fa-circle text-xl mt-3" />
 		</div>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={testClick}>
+		<div on:click={moveScroll}>
 			<i class="fa-solid fa-circle mt-3" />
 		</div>
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={testClick}>
+		<div on:click={moveScroll}>
 			<i class="fa-solid fa-circle mt-3" />
 		</div>
 
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div on:click={testClick}>
+		<div on:click={moveScroll}>
 			<i class="fa-solid fa-circle mt-3" />
 		</div>
-
-		<button on:click={testFunc} class=" text-orange-500">GO</button>
 	</div>
 
 	<!-- 첫번째 단 -->
@@ -145,7 +167,12 @@
 					<p class="font-bold gamsil text-4xl pb-3 lg:text-6xl lg:pb-4" bind:this={subjectBottom} />
 				</div>
 
-				<p class="text-white score-light font-semibold text-2xl lg:text-3xl">
+				<p
+					class="text-white score-light font-semibold text-2xl lg:text-3xl"
+					data-aos="fade-up"
+					data-aos-delay="2100"
+					data-aos-duration="700"
+				>
 					BEST MARKETING COMPANY
 				</p>
 			</div>
@@ -159,7 +186,7 @@
 					Marketing Plan.
 				</div>
 				<div class="grid grid-cols-1 gap-5 md:grid-cols-2 px-2 lg:px-32 mt-9">
-					<div class="flex gap-3 mt-2 lg:mt-8">
+					<div class="flex gap-3 mt-2 lg:mt-8" data-aos="flip-up" data-aos-duration="800">
 						<div class="w-1/4 flex justify-center items-center">
 							<img
 								src="/icon1/cursor.png"
@@ -179,7 +206,7 @@
 						</div>
 					</div>
 
-					<div class="flex gap-3 mt-2 lg:mt-8">
+					<div class="flex gap-3 mt-2 lg:mt-8" data-aos="flip-down" data-aos-duration="900">
 						<div class="w-1/4 flex justify-center items-center">
 							<img
 								src="/icon1/ad-blocker.png"
@@ -201,7 +228,7 @@
 						</div>
 					</div>
 
-					<div class="flex gap-3 mt-2 lg:mt-8">
+					<div class="flex gap-3 mt-2 lg:mt-8" data-aos="flip-down" data-aos-duration="1000">
 						<div class="w-1/4 flex justify-center items-center">
 							<img
 								src="/icon1/supermarket.png"
@@ -221,7 +248,7 @@
 						</div>
 					</div>
 
-					<div class="flex gap-3 mt-2 lg:mt-8">
+					<div class="flex gap-3 mt-2 lg:mt-8" data-aos="flip-up" data-aos-duration="1100">
 						<div class="w-1/4 flex justify-center items-center">
 							<img src="/icon1/sms.png" alt="" class="w-5/6 md:w-full" style="max-width: 120px;" />
 						</div>
@@ -333,7 +360,7 @@
 						<div class="border border-gray-300 rounded-full overflow-hidden">
 							<img src="/model/model4.jpg" alt="" />
 						</div>
-						<div class="mt-1 text-xs md:text-base">Sex Machin</div>
+						<div class="mt-1 text-xs md:text-base">Designer</div>
 						<div class="">정한나</div>
 					</div>
 				</div>
@@ -341,52 +368,148 @@
 		</div>
 
 		<!-- 다섯번째 단 -->
-		<div class=" h-screen bg-violet-700">
+		<div class=" h-screen bg-violet-700 bg-[url('/bgimg/bg_pattern.png')] bg-cover bg-bottom">
 			<div class="text-center h-full w-full max-w-7xl mx-auto px-6 relative">
 				<div class="pt-12 dm-serif text-5xl md:text-6xl text-amber-800">Contact Us.</div>
 
 				<form>
-					<div class="mt-12 score-light">
-						<div class="grid grid-cols-2 border-t-2 border-amber-800">
-							<div class="col-span-2 flex border-b border-brown-200">
-								<div class=" bg-blue-gray-50 px-4 py-4" style="min-width:150px;">글쓴이</div>
+					<div class="mt-12 score-light pr-4 md:pr-0">
+						<div class="grid grid-cols-1 md:grid-cols-2 border-t-2 border-amber-800">
+							<div class="md:col-span-2 flex border-b border-brown-200">
+								<div class="bg-blue-gray-50 px-4 py-2 md:py-4 text-center" style="min-width:150px;">
+									글쓴이
+								</div>
 								<div class="w-full px-4 py-2">
 									<input
 										type="text"
 										name=""
 										id=""
-										class="border border-blue-gray-200 rounded-md w-full p-2"
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
 									/>
 								</div>
 							</div>
 
 							<div class="flex border-b border-brown-200">
-								<div class=" bg-blue-gray-50 px-4 py-4" style="min-width:150px;">담당자 성함</div>
+								<div class=" bg-blue-gray-50 px-4 py-2 md:py-4" style="min-width:150px;">
+									담당자 성함
+								</div>
 								<div class="w-full px-4 py-2">
 									<input
 										type="text"
 										name=""
 										id=""
-										class="border border-blue-gray-200 rounded-md w-full p-2"
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
 									/>
 								</div>
 							</div>
 
 							<div class="flex border-b border-brown-200">
-								<div class=" bg-blue-gray-50 px-4 py-4" style="min-width:150px;">회사명</div>
+								<div class="bg-blue-gray-50 px-4 py-2 md:py-4" style="min-width:150px;">회사명</div>
 								<div class="w-full px-4 py-2">
 									<input
 										type="text"
 										name=""
 										id=""
-										class="border border-blue-gray-200 rounded-md w-full p-2"
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
+									/>
+								</div>
+							</div>
+
+							<div class="flex border-b border-brown-200">
+								<div class=" bg-blue-gray-50 px-4 py-2 md:py-4" style="min-width:150px;">
+									연락처
+								</div>
+								<div class="w-full px-4 py-2">
+									<input
+										type="text"
+										name=""
+										id=""
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
+									/>
+								</div>
+							</div>
+
+							<div class="flex border-b border-brown-200">
+								<div class=" bg-blue-gray-50 px-4 py-2 md:py-4" style="min-width:150px;">
+									월 광고예산
+								</div>
+								<div class="w-full px-4 py-2">
+									<input
+										type="text"
+										name=""
+										id=""
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
+									/>
+								</div>
+							</div>
+
+							<div class="md:col-span-2 md:flex border-b border-brown-200">
+								<div class="bg-blue-gray-50 px-4 py-2 md:py-4 text-center" style="min-width:150px;">
+									기타문의
+								</div>
+								<div class="w-full px-4 py-2">
+									<textarea
+										class="border border-blue-gray-200 rounded-md w-full p-1 md:p-2"
+										cols="30"
+										rows="2"
 									/>
 								</div>
 							</div>
 						</div>
-						asdfasdfasdf
 					</div>
+
+					<div
+						class="mt-7 bg-blue-gray-50 py-3 flex justify-between text-xs md:text-base px-2 md:px-11 score-light"
+					>
+						<div>
+							개인정보 수집 이용에 대한 동의 <button>자세히 보기</button>
+						</div>
+						<div>
+							<label class="mr-3">
+								<input type="radio" name="" id="" checked />
+								동의
+							</label>
+							<label>
+								<input type="radio" name="" id="" />
+								미동의
+							</label>
+						</div>
+					</div>
+
+					<button
+						class="gm-medium mt-7 border px-28 py-2 md:py-6 border-amber-500 bg-amber-500 text-2xl md:text-3xl rounded-lg"
+					>
+						신청하기
+					</button>
 				</form>
+			</div>
+		</div>
+
+		<div class="my-8">
+			<div class="px-6 max-w-5xl mx-auto score-light text-sm md:text-base">
+				<div>
+					<span class="inline-block">상호명 : 모모모 홀딩스 |</span>
+					<span class="inline-block">대표 : 박성진 |</span>
+					<span class="inline-block">전화번호 : 1644-8878 |</span>
+					<span class="inline-block">사업자번호 : 208-98-12587 |</span>
+					<span class="inline-block"
+						>주소 : 서울시 금천구 가산디지털9로 구로구로구 성진빌딩 9층</span
+					>
+				</div>
+				<div class="grid grid-cols-4 gap-4 mt-4">
+					<div class="mx-auto" style="max-width: 150px;">
+						<img src="/ft/ft_company1.jpg" alt="" />
+					</div>
+					<div class="mx-auto" style="max-width: 150px;">
+						<img src="/ft/ft_company2.jpg" alt="" />
+					</div>
+					<div class="mx-auto" style="max-width: 150px;">
+						<img src="/ft/ft_company3.jpg" alt="" />
+					</div>
+					<div class="mx-auto" style="max-width: 150px;">
+						<img src="/ft/ft_company4.jpg" alt="" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

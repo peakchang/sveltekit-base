@@ -27,6 +27,7 @@
 	"type": "module",
 	"dependencies": {
 		"@material-tailwind/html": "^2.0.0",
+		"aos": "^2.3.4",
 		"axios": "^1.4.0",
 		"bcrypt": "^5.1.0",
 		"jsonwebtoken": "^9.0.0",

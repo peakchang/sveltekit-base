@@ -34,27 +34,7 @@
 	};
 </script>
 
-<div class="fixed top-0 left-0">
-	<ul class="flex">
-		<a href="/">
-			<li class="mr-3">Home</li>
-		</a>
-		<a href="/testpage">
-			<li class="mr-3">testpage</li>
-		</a>
 
-		<!-- 여기는 로그인 관련 부분 -->
-		{#if $user_info}
-			<a href="/auth/logout" on:click|preventDefault={logoutFunc}>
-				<li class="mr-3">logout</li>
-			</a>
-		{:else}
-			<a href="/auth/login">
-				<li class="mr-3">login</li>
-			</a>
-		{/if}
-	</ul>
-</div>
 
 <slot />
 

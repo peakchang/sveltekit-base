@@ -5,13 +5,6 @@
 	import AOS from 'aos';
 	import 'aos/dist/aos.css'; // You can also use <link> for styles
 
-	// @ts-ignore
-	let rightFix = {};
-	/**
-	 * @type {HTMLDivElement}
-	 */
-
-	console.log(AOS);
 	let pageWrap;
 	let btnWrap;
 	let menuWrap;
@@ -123,6 +116,9 @@
 		<li class="mr-3 cursor-pointer" on:click={moveScroll}>전문가</li>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li class="mr-3 cursor-pointer" on:click={moveScroll}>신청하기</li>
+		<a href="/adm">
+			<li>고고</li>
+		</a>
 	</ul>
 </div>
 

@@ -22,9 +22,11 @@
 		}
 	});
 
+	
+
 	// 로그인 / 로그아웃 관련
 	if (data) {
-		$user_info = data.user_info;
+		$user_info = data.userInfo;
 	}
 
 	const logoutFunc = () => {

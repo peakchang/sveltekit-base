@@ -84,7 +84,7 @@
 
 <svelte:window bind:innerWidth />
 
-{#if $user_info.rate > 5}
+{#if $user_info.rate > 3}
 	<div class="fixed left-0 top-0 w-full z-50 py-2 px-6 lg:pl-28 bg-blue-gray-600">
 		<button
 			class="text-2xl text-white hidden md:inline-block"

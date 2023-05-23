@@ -1,12 +1,24 @@
 import { writeFileSync } from 'fs';
-
+import { writeFile } from 'fs/promises';
 
 export const POST = async ({ request, cookies }) => {
 
+    const data = await request.json()
+
+    console.log(data);
+
+
+    const jsonData = JSON.parse(data.body);
+
     console.log('여기 포스트는 오고?!?!??!');
-    const data = JSON.parse((await request.body.read()).toString());
 
-    const file = data['image'];
+    // 이게 BASE64 str
+    const file = jsonData['image'];
 
-    writeFileSync(`static/avatar.png`, file, 'base64');
+    await writeFileSync(`static/testimage.png`, file, 'base64');
+    // writeFileSync(`static/testimage.png`, file, 'base64');
+
+    // writeFileSync(`static/testimage.png`, file, 'base64');
+
+    return new Response({ status: 200 });
 }

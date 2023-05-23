@@ -17,7 +17,7 @@
 	export let data;
 	onMount(() => {
 		$user_info = data.userInfo;
-        console.log($user_info.rate);
+		console.log($user_info.rate);
 		if ($user_info.rate < 5) {
 			alert('권한이 없습니다.');
 			goto('/');

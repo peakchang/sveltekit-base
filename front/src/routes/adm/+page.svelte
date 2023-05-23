@@ -1,7 +1,6 @@
 <script>
 	import { pc_sidebar } from '$lib/stores/opt_store';
 	import axios from 'axios';
-	console.log($pc_sidebar);
 
 	let fileInput;
 	let files;
@@ -31,14 +30,6 @@
 				}
 			}
 		);
-		// await fetch(`/adm`, {
-		//     method: 'POST',
-		//     headers: {
-		//         'Content-Type': 'application/json',
-		//         Accept: 'application/json'
-		//     },
-		//     body: JSON.stringify(data)
-		// });
 	}
 </script>
 

@@ -8,6 +8,7 @@ export const POST = async ({ request, cookies }) => {
     console.log(cookies);
     
     const body = await request.json()
+    console.log(body);
     
     try {
         if (body.login_type === 'local') {

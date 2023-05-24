@@ -145,10 +145,13 @@
                     //     console.log(`value : ${pair}`);
                     // }
 
-                    console.log("이벤트는 발생 함???");
+                    console.log(getReImgUrl);
+                    console.log(fileName);
+
+
                     axios
                         .post(
-                            import.meta.env.VITE_EDITOR_IMG_MOVE_POST_URL,
+                            "/api/image_upload",
                         )
                         .then((res) => {
                             imgUrlArr.push(res.data.baseUrl);

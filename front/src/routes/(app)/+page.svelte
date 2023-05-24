@@ -172,6 +172,7 @@
 					BEST MARKETING COMPANY
 				</p>
 			</div>
+			
 		</div>
 
 		<!-- 두번째 단 -->
@@ -181,6 +182,7 @@
 				<div class="pt-4 md:pt-12 dm-serif text-5xl md:text-6xl text-amber-800 text-center">
 					Marketing Plan.
 				</div>
+				<div class=" text-teal-700">slfdjsdjf</div>
 				<div class="grid grid-cols-1 gap-5 md:grid-cols-2 px-2 lg:px-32 mt-9">
 					<div class="flex gap-3 mt-2 lg:mt-8" data-aos="flip-up" data-aos-duration="800">
 						<div class="w-1/4 flex justify-center items-center">

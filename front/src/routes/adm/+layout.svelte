@@ -14,15 +14,15 @@
 	import SideBar from '$lib/components/SideBar.svelte';
 	import axios from 'axios';
 
-	export let data;
-	onMount(() => {
-		$user_info = data.userInfo;
-		console.log($user_info.rate);
-		if ($user_info.rate < 5) {
-			alert('권한이 없습니다.');
-			goto('/');
-		}
-	});
+	// export let data;
+	// onMount(() => {
+	// 	$user_info = data.userInfo;
+	// 	console.log($user_info.rate);
+	// 	if ($user_info.rate < 5) {
+	// 		alert('권한이 없습니다.');
+	// 		goto('/');
+	// 	}
+	// });
 	import { admin_sidebar, pc_sidebar, mobile_sidebar } from '$lib/stores/opt_store';
 
 	const buildLink = import.meta.env.VITE_BUILD_LINK;
@@ -84,7 +84,6 @@
 
 <svelte:window bind:innerWidth />
 
-{#if $user_info.rate > 3}
 	<div class="fixed left-0 top-0 w-full z-50 py-2 px-6 lg:pl-28 bg-blue-gray-600">
 		<button
 			class="text-2xl text-white hidden md:inline-block"
@@ -139,7 +138,6 @@
 
 	<SideBar {menu_list} />
 	<slot />
-{/if}
 
 <style>
 	:global(.suit-font) {

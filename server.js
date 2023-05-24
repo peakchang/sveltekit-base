@@ -11,8 +11,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log(__dirname);
-app.use(express.static(path.join(__dirname, 'static')));
+app.use('/editor',express.static(path.join(__dirname, 'public/uploads/editor')));
 
+app.use('/image',express.static(path.join(__dirname, 'public/uploads/image')));
 // app.use(cors());
 
 import { handler } from "./front/build/handler.js"

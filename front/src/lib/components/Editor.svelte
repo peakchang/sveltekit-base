@@ -86,13 +86,10 @@
 						var getReImgUrl = canvas.toDataURL('image/webp');
 
 						// 스벨트 킷에서는 form 으로 넘기지 말고 BASE64 문자열을 고대로 보내서 파일 업로드로 함
-						console.log(getReImgUrl);
-
 						const base64DataTemp = {};
 						const imgData = getReImgUrl.split(',');
 						base64DataTemp['image'] = imgData[1];
 						const base64Data = JSON.stringify(base64DataTemp);
-						console.log(base64Data);
 
 						// const resultImage = dataURItoBlob(getReImgUrl);
 						// let imgForm = new FormData();
@@ -103,20 +100,14 @@
 						// imgForm.append('editorimg', resultImage, fileName);
 
 						imgArr.push(fileName);
-						console.log(imgArr);
 
 						const getImgUrl = await axios.post(
-							import.meta.env.VITE_EDITOR_IMG_EDITOR_POST_URL,
+							// import.meta.env.VITE_EDITOR_IMG_EDITOR_POST_URL,
+							"/api/editor_upload",
 							{ fileName, base64Data }
-							// {
-							// 	headers: {
-							// 		'Content-Type': 'multipart/form-data'
-							// 	}
-							// }
 						);
 
 						const range = quill.getSelection();
-						console.log(getImgUrl);
 						quill.insertEmbed(range.index, 'image', getImgUrl.data.baseUrl);
 						quill.insertText(range.index + 1, '\n');
 

@@ -1,84 +1,167 @@
 <script>
-	import { browser } from '$app/environment';
 	import '$src/app.css';
-	import { onMount } from 'svelte';
-	import { user_info } from '$lib/stores/auth_store';
+	import { page } from '$app/stores';
+	// import { user_id } from "$lib/store";
 	import { goto } from '$app/navigation';
-	import { beforeNavigate } from '$app/navigation';
-	import '$src/app.css';
+	import MainSideBar from '$lib/components/MainSideBar.svelte';
+	// import Footer from "$components/Footer.svelte";
+	// import { auth_chk } from "$lib/lib";
 	import '$node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 
-	import axios from 'axios';
-	export let data;
+    export let data;
+    console.log(data);
 
-	// 페이지 이동시 전처리 함수
-	beforeNavigate((e) => {
-		e.willUnload = true;
-		console.log(e.to.route.id.includes('login'));
-		if (e.to.route.id.includes('login') && $user_info) {
-			alert('이미 로그인 되어 있습니다!');
-			e.cancel();
-			return;
-		}
-	});
 
-	
+	let url = '/';
+	let sideBarStatus = false;
+	$: url = $page.url.pathname;
+	const navs = [
+		{ title: '맞춤현장', href: '/sitelist' },
+		{ title: '분양뉴스', href: '/test1' },
+		{ title: '현장홍보', href: '/test2' },
+		// { title: "키즈폰", query: "kids" },
+		{ title: '분양인', href: '/' }
+	];
 
-	// 로그인 / 로그아웃 관련
-	if (data) {
-		$user_info = data.userInfo;
+	$: {
+		console.log($page.url.pathname);
+		// auth_chk()
 	}
 
-	const logoutFunc = () => {
-		axios.post('/auth/logout', {}, { withCredentials: true }).then((res) => {
-			$user_info = false;
-		});
-	};
+	let search_input;
+	let shWrap = false;
+
+	$: {
+		console.log(search_input);
+	}
 </script>
 
+<svelte:head>
+	<!-- SUIT 폰트 CSS -->
+	<link
+		href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css"
+		rel="stylesheet"
+	/>
+</svelte:head>
+<header class="">
+	<div
+		class="hidden max_screen md:flex justify-between items-center suit-font py-4 px-2 mx-auto border-b border-zinc-300"
+	>
+		<a href="/"> <div class="">LOGO</div></a>
 
+		<div class="flex">
+			{#each navs as nav}
+				<button
+					class="ml-6 font-semibold"
+					on:click={() => {
+						if (nav.href) {
+							goto(nav.href);
+						} else {
+							console.log(nav.query);
+						}
+					}}>{nav.title}</button
+				>
+			{/each}
+		</div>
+
+		<div class="flex border border- border-gray-300 pl-3 py-1 rounded-md" class:border-2={shWrap}>
+			<button><i class="fa-solid fa-magnifying-glass" /></button>
+			<input
+				type="text"
+				on:focusout={() => {
+					shWrap = false;
+				}}
+				on:focusin={() => {
+					shWrap = true;
+				}}
+				class="b border-none focus:outline-none ml-2"
+			/>
+		</div>
+
+		<div class="flex">
+			<button
+				class="py-1 border border-blue-400 px-3 rounded-lg bg-blue-400 text-white"
+				on:click={() => goto('/auth/login')}
+				>로그인
+			</button>
+
+			<button class="ml-3 py-1 border border-emerald-500 px-3 rounded-lg bg-teal-500 text-white"
+            on:click={() => goto('/auth/join')}
+				>회원가입
+			</button>
+		</div>
+	</div>
+
+	<div
+		class="fixed left-0 top-0 flex md:hidden py-3 px-5 w-full justify-between items-center suit-font border-b border-zinc-300 bg-white z-20"
+	>
+		<div class="flex">
+			<button
+				on:click={() => {
+					sideBarStatus = !sideBarStatus;
+				}}
+			>
+				<i class="fa-solid fa-bars" />
+			</button>
+
+			<a href="/">
+				<div class="ml-5">LOGO</div>
+			</a>
+		</div>
+
+		<div
+			class="flex border border- border-gray-300 py-1 pl-3 rounded-lg overflow-hidden"
+			class:border-2={shWrap}
+		>
+			<button><i class="fa-solid fa-magnifying-glass" /></button>
+
+			<input
+				type="text"
+				on:focusout={() => {
+					shWrap = false;
+				}}
+				on:focusin={() => {
+					shWrap = true;
+				}}
+				class="b border-none focus:outline-none ml-2"
+			/>
+		</div>
+	</div>
+
+	<MainSideBar bind:sideBarStatus {navs} />
+</header>
 
 <slot />
 
+<hr class="bg-zinc-300 border-0" style="height: 1px;" />
+
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
-
-	@font-face {
-		font-family: 'TheJamsil5Bold';
-		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2')
-			format('woff2');
-		font-weight: 700;
-		font-style: normal;
+	:global(.suit-font) {
+		font-family: 'SUIT';
 	}
 
-	@font-face {
-		font-family: 'S-CoreDream-3Light';
-		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff')
-			format('woff');
-		font-weight: normal;
-		font-style: normal;
+	:global(.max_screen) {
+		max-width: 970px;
 	}
 
-	@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-	:global(.gamsil) {
-		font-family: 'TheJamsil5Bold';
+	:global(.max_screen_inner) {
+		max-width: 616px;
 	}
 
-	:global(.score-light) {
-		font-family: 'S-CoreDream-3Light';
+	:global(.main_img) {
+		height: 300px;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		max-width: 970px;
+		margin: 0 auto;
 	}
 
-	:global(.dm-serif) {
-		font-family: 'DM Serif Display', serif;
-	}
-
-	:global(.gm-medium) {
-		font-family: 'GmarketSansMedium';
+	:global(.main_img h1) {
+		text-align: center;
+		font-size: 40px;
+		font-weight: bolder;
+		position: relative;
 	}
 </style>

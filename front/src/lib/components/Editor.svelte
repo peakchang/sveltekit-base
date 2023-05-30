@@ -108,7 +108,7 @@
 						);
 
 						const range = quill.getSelection();
-						quill.insertEmbed(range.index, 'image', getImgUrl.data.baseUrl);
+						quill.insertEmbed(range.index, 'image', getImgUrl.data.saveUrl);
 						quill.insertText(range.index + 1, '\n');
 
 						quill.setSelection(range.index + 2);

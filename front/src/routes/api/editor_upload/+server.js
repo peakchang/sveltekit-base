@@ -9,24 +9,32 @@ export const POST = async ({ request, url }) => {
     const now = moment().format('YYMMDD')
     const data = await request.json()
     let baseUrl;
+    let saveUrl;
     imageFolderChk()
 
     console.log(`닷앤브가 필요한가?? ${process.env.VITE_DEV_STATUS}`);
 
-    if(import.meta.env.VITE_DEV_STATUS === 'product'){
+    if (import.meta.env.VITE_DEV_STATUS === 'product') {
         baseUrl = url.origin + '/editor/editor' + now + '/' + data.fileName;
-    }else{
-        baseUrl = url.origin + '/public/uploads/editor/editor' + now + '/' + data.fileName;
+    } else {
+        saveUrl = url.origin + '/public/uploads/editor/editor' + now + '/' + data.fileName;
+        baseUrl = 'public/uploads/editor/editor' + now + '/' + data.fileName;
     }
 
     console.log(baseUrl);
-    
-    // // const saveFolder = `public/uploads/editor/editor${now}/${data.fileName}`
-    // const imageFileJson = JSON.parse(data.base64Data);
-    // const imageFile = imageFileJson.image
 
-    // writeFileSync(imageFile, 'base64');
-    return new Response(JSON.stringify({ baseUrl }), { status: 200 });
+    // // const saveFolder = `public/uploads/editor/editor${now}/${data.fileName}`
+    const imageFileJson = JSON.parse(data.base64Data);
+    console.log(imageFileJson);
+    const imageFile = imageFileJson.image
+    console.log(imageFile);
+
+    writeFileSync(baseUrl, imageFile, 'base64');
+
+    console.log(baseUrl);
+    console.log(saveUrl);
+
+    return new Response(JSON.stringify({ saveUrl }), { status: 200 });
 }
 
 const imageFolderChk = () => {
